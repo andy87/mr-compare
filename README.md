@@ -1,2 +1,2 @@
-# mr-compare
+# mrCompare
 widget compare product
