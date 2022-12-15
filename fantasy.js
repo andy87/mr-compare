@@ -1,3 +1,5 @@
+"use strict";
+
 window.mrCompare = {};
 
 window.addEventListener(.'ready', function(){
