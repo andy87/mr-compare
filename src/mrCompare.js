@@ -119,13 +119,11 @@ let mrCompare = {};
     {
         stats = stats ?? {};
 
-        let product = _upgrade( new _.template[PRODUCT](), {
+        _.data[PRODUCT][id] = _upgrade( new _.template[PRODUCT](), {
             name : name,
             url : url,
             stats : stats
-        });
-
-        _.data[PRODUCT][id] = product.trigger(EVENT_BEFORE_ADD);
+        }).trigger(EVENT_BEFORE_ADD);
 
         for( let stat_id in stats ) {
             _.add[STAT]( stat_id, stats[stat_id][NAME], stats[stat_id][HINT] ?? null );
