@@ -43,24 +43,35 @@ let mrCompare = {};
 
 
     // Templates
-
-    let triggerPrototype = function()
+    let modelPrototype = function()
     {
         let self = this;
-
-        let TYPE = '';
+        this.name;
+        this.TYPE = '';
 
         this.trigger = function(event){
-            return _.events[TYPE][event](self);
+            return _.events[this.TYPE][event](this);
+        }
+
+        this.getProperty = function (arr) {
+            let property = {};
+
+            for (let key in arr)
+            {
+                key = arr[key];
+                property[key] = self[key] ?? null
+            }
+
+            return property;
         }
     }
 
     _.template[STAT] = function()
     {
-        this.prototype = triggerPrototype.prototype;
-        let TYPE = STAT;
+        modelPrototype.call(this);
+        this.TYPE = STAT;
 
-        this.name = '';
+        this.id;
         this.hint = null;
 
         return this;
@@ -68,27 +79,27 @@ let mrCompare = {};
 
     _.template[PRODUCT] = function()
     {
-        this.prototype = triggerPrototype.prototype;
-        let TYPE = PRODUCT;
+        modelPrototype.call(this);
+        this.TYPE = PRODUCT;
 
-        this.name = '';
-        this.url = '';
+        this.url = null;
         this.stats = null;
 
         return this;
     };
 
 
-    // CallBack's
-
-    _.events[STAT][EVENT_BEFORE_ADD] = function (id, data){
+    // Events
+    _.events[STAT] = {};
+    _.events[STAT][EVENT_BEFORE_ADD] = function (data){
         return data;
     };
     _.events[STAT][EVENT_AFTER_ADD] = function (data){
         return data;
     };
 
-    _.events[PRODUCT][EVENT_BEFORE_ADD] = function (id, data){
+    _.events[PRODUCT] = {};
+    _.events[PRODUCT][EVENT_BEFORE_ADD] = function (data){
         return data;
     };
     _.events[PRODUCT][EVENT_AFTER_ADD] = function (data){
@@ -109,12 +120,11 @@ let mrCompare = {};
 
     _.add[STAT] = function (id, name, hint)
     {
-        let stat = _upgrade( new _.template[STAT](), {
+        _.data[STAT][id] = _upgrade( new _.template[STAT](), {
+            id : id,
             name : name,
             hint : hint ?? null,
-        });
-
-        _.data[STAT][id] = stat.trigger(EVENT_BEFORE_ADD);
+        }).trigger(EVENT_BEFORE_ADD);
 
         return _.data[STAT][id].trigger(EVENT_AFTER_ADD);
     }
