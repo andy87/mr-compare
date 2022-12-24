@@ -8,6 +8,8 @@ let mrCompare = {};
 
 (function()
 {
+    console.log('file: dev.js');
+
     const
         STAT = 'stat',
         PRODUCT = 'product',
@@ -25,6 +27,12 @@ let mrCompare = {};
         NAME : NAME,
         HINT : HINT,
 
+        selector : {
+            wrapperID : 'compareWrapper',
+            wrapperStat : 'mr_compare_table_stats',
+            wrapperProduct : 'mr_compare_table_product',
+        },
+
         data: {},
 
         template : {},
@@ -33,8 +41,68 @@ let mrCompare = {};
 
         events : {},
 
+        /**
+         * display HTML on selector Element
+         * @param selector
+         */
         run : function (selector){
 
+            const commonWrapper = document.createElement("div");
+            commonWrapper.id  = this.selector.wrapperID;
+
+            /**
+             * create table wrapper
+             *
+             * @param id
+             */
+            function addWrapper(id){
+
+                const newWrapper = document.createElement('div');
+                newWrapper.id = id;
+
+                return newWrapper;
+            }
+
+            let wrapperStat = addWrapper(_.selector.wrapperStat);
+            let wrapperProduct = addWrapper(_.selector.wrapperProduct);
+
+            // ...
+
+            let tableParams = document.createElement("table");
+
+            let TR = document.createElement('TR');
+
+            let TD = document.createElement("TD");
+            TD.innerText = 'name';
+            TR.append(TD);
+
+            TD = document.createElement("TD");
+            TD.innerText = 'img';
+            TR.append(TD);
+
+            for( let id in _.data.stat )
+            {
+                let TD = document.createElement("TD");
+                TD.innerText = _.data.stat[id].name;
+
+                TR.append(TD);
+            }
+
+            tableParams.append(TR);
+
+            wrapperStat.append(tableParams);
+
+
+            tableParams.append(TR)
+
+            wrapperProduct.append(tableParams);
+
+
+            commonWrapper.append(wrapperStat);
+            commonWrapper.append(wrapperProduct);
+
+
+            document.querySelector(selector).append(commonWrapper);
         }
     };
 
