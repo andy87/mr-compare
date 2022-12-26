@@ -3,36 +3,36 @@ widget compare product
 
 ### Using
 
-#### Stat
-Stat - product property.  
+#### Model: Stat
+Stat - single product property info.  
 
-`stat` template
+`stat` json template
 ```javascript
 stat = {
-    name    : '', //string|notNull
-    hint    : '', // string|null
+    name    : '', // string|notNull - label (display in table)
+    hint    : '', // string|null - description (attr title)
 }
 ```
 
-`stat` add
+`stat` example add
 ```javascript
 window.AddEventListemer('load', function()
 {
-    // FullData(stat.id, stat.label, stat.hint)
+    // add FullData: stat.id, stat.label, stat.hint
     MrCompare.add.stat(13,'stat label','Small descriprion/hint');
     
-    // Compact(stat.id, stat.label, stat.hint)
+    // add Minimum: stat.id, stat.label
     MrCompare.add.stat(42,'stat label');
 });
 ```
 
-#### Product
-Product - compare item.  
+#### Model: Product
+Product - single comparing item.  
 
 `product` template
 ```javascript
 product = {
-    name    : '', //string|notNull
+    name    : '', // string|notNull
     url     : '', // string|null
     stats   : {}, // object|null
 }
@@ -42,7 +42,7 @@ product = {
 ```javascript
 window.AddEventListemer('load', function()
 {
-    // FullData(product.id, product.name, product.params)
+    // add FullData: product.id, product.name, product.params
     MrCompare.add.product(64,'ProductName',{
         url     : '/url/to/product/page',
         stats   : {
@@ -54,15 +54,20 @@ window.AddEventListemer('load', function()
         }
     });
     
-    // Compact(product.id, product.name, product.params)
+    // add minimum: product.id, product.name, product.params
     MrCompare.add.product(69,'ProductName',{
         stats   : {
             13      : 'stat Value',
             42      : 'stat Value',
         }
     });
+    
+    //for update display table call method
+    MrCompare.render();
 });
 ```
+
+
 
 #### Example for Production
 
@@ -71,26 +76,7 @@ window.AddEventListemer('load', function()
 ```javascript
 window.AddEventListemer('load', function()
 {
-    /**
-     * @example return array item: [
-     *  {
-     *      url     : '/url/to/product/page',
-     *      stats   : {
-     *          42      : {
-     *              name    : 'stat Laabel',
-     *              hint    : 'stat Hint',
-     *              value   : 'stat Value',
-     *          }
-     *      }
-     *  }
-     * ]
-     * 
-     * @return arraay
-     */
-    function getProducts(){}
-    
-    // FullData(product.id, product.name, product.params)
-    MrCompare.add.productList( getProducts() );
-    MrCompare.run('#mrCompare'); // in progress
+    MrCompare.add.productList( [ /** array products model  **/] );
+    MrCompare.init('#mrCompare'); // in progress
 });
 ```

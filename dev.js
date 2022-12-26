@@ -28,6 +28,7 @@ let mrCompare = {};
         HINT : HINT,
 
         selector : {
+            wrapper : null,
             wrapperID : 'compareWrapper',
             wrapperStat : 'mr_compare_table_stats',
             wrapperProduct : 'mr_compare_table_product',
@@ -45,10 +46,22 @@ let mrCompare = {};
          * display HTML on selector Element
          * @param selector
          */
-        run : function (selector){
+        init : function (selector){
+
+            _.selector.wrapper = selector;
 
             const commonWrapper = document.createElement("div");
             commonWrapper.id  = this.selector.wrapperID;
+
+            this.render();
+        },
+
+
+        render : function ()
+        {
+
+            let commonWrapper = document.querySelector('#' + this.selector.wrapperID);
+            commonWrapper.innerHTML = '';
 
             /**
              * create table wrapper
@@ -68,41 +81,41 @@ let mrCompare = {};
 
             // ...
 
-            let tableParams = document.createElement("table");
+            let tableParams = document.createElement('table');
 
-            let TR = document.createElement('TR');
+            function createTDinTR(text)
+            {
+                let TR = document.createElement('TR');
+                let TD = document.createElement("TD");
+                TD.innerText = text;
+                TR.append(TD);
 
-            let TD = document.createElement("TD");
-            TD.innerText = 'name';
-            TR.append(TD);
+                return TR;
+            }
 
-            TD = document.createElement("TD");
-            TD.innerText = 'img';
-            TR.append(TD);
+            tableParams.append( createTDinTR('name') );
+            tableParams.append( createTDinTR('img') );
 
             for( let id in _.data.stat )
             {
-                let TD = document.createElement("TD");
-                TD.innerText = _.data.stat[id].name;
-
-                TR.append(TD);
+                tableParams.append( createTDinTR(_.data.stat[id].name) );
             }
 
-            tableParams.append(TR);
+            let tableStat = tableParams.cloneNode(true);
+            let tableProduct = tableParams.cloneNode(true);
 
-            wrapperStat.append(tableParams);
+            wrapperStat.append(tableStat);
+            wrapperProduct.append(tableProduct);
 
+            let td = document.createElement('TD');
+            td.innerText = 'innerText';
 
-            tableParams.append(TR)
-
-            wrapperProduct.append(tableParams);
-
+            //tableProduct.;
 
             commonWrapper.append(wrapperStat);
             commonWrapper.append(wrapperProduct);
 
-
-            document.querySelector(selector).append(commonWrapper);
+            document.querySelector(_.selector.wrapper).append(commonWrapper);
         }
     };
 
