@@ -18,9 +18,9 @@ let mrCompare = {};
         HINT = 'hint',
 
         EVENT_BEFORE_ADD = 'beforeAdd',
-        EVENT_AFTER_ADD = 'afterAdd';
+        EVENT_AFTER_ADD = 'afterAdd',
 
-    let _ = mrCompare = {
+    _ = mrCompare = {
         STAT : STAT,
         PRODUCT : PRODUCT,
 
@@ -44,6 +44,7 @@ let mrCompare = {};
 
         /**
          * display HTML on selector Element
+         *
          * @param selector
          */
         init : function (selector){
@@ -56,10 +57,8 @@ let mrCompare = {};
             this.render();
         },
 
-
         render : function ()
         {
-
             let commonWrapper = document.querySelector('#' + this.selector.wrapperID);
             commonWrapper.innerHTML = '';
 
@@ -76,17 +75,16 @@ let mrCompare = {};
                 return newWrapper;
             }
 
-            let wrapperStat = addWrapper(_.selector.wrapperStat);
-            let wrapperProduct = addWrapper(_.selector.wrapperProduct);
+            let wrapperStat = addWrapper(_.selector.wrapperStat),
+                wrapperProduct = addWrapper(_.selector.wrapperProduct),
 
-            // ...
-
-            let tableParams = document.createElement('table');
+                tableParams = document.createElement('table');
 
             function createTDinTR(text)
             {
-                let TR = document.createElement('TR');
-                let TD = document.createElement("TD");
+                let TR = document.createElement('TR'),
+                    TD = document.createElement("TD");
+
                 TD.innerText = text;
                 TR.append(TD);
 
@@ -96,21 +94,18 @@ let mrCompare = {};
             tableParams.append( createTDinTR('name') );
             tableParams.append( createTDinTR('img') );
 
-            for( let id in _.data.stat )
-            {
+            for( let id in _.data.stat ) {
                 tableParams.append( createTDinTR(_.data.stat[id].name) );
             }
 
-            let tableStat = tableParams.cloneNode(true);
-            let tableProduct = tableParams.cloneNode(true);
+            let tableStat = tableParams.cloneNode(true),
+                tableProduct = tableParams.cloneNode(true),
+                td = document.createElement('TD');
 
             wrapperStat.append(tableStat);
             wrapperProduct.append(tableProduct);
 
-            let td = document.createElement('TD');
             td.innerText = 'innerText';
-
-            //tableProduct.;
 
             commonWrapper.append(wrapperStat);
             commonWrapper.append(wrapperProduct);
@@ -137,8 +132,7 @@ let mrCompare = {};
         this.getProperty = function (arr) {
             let property = {};
 
-            for (let key in arr)
-            {
+            for (let key in arr) {
                 key = arr[key];
                 property[key] = self[key] ?? null
             }
@@ -150,8 +144,8 @@ let mrCompare = {};
     _.template[STAT] = function()
     {
         modelPrototype.call(this);
-        this.TYPE = STAT;
 
+        this.TYPE = STAT;
         this.id;
         this.hint = null;
 
@@ -161,8 +155,8 @@ let mrCompare = {};
     _.template[PRODUCT] = function()
     {
         modelPrototype.call(this);
-        this.TYPE = PRODUCT;
 
+        this.TYPE = PRODUCT;
         this.url = null;
         this.stats = null;
 
